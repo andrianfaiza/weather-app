@@ -1,0 +1,161 @@
+body{
+    background-color: black;
+    color: white;
+    font-family: sans-serif;
+}
+.container{
+    margin: 10px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h3{
+    color: white;
+}
+.search-input{
+    display: flex;
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    gap: 10px;
+    
+}
+.search-input input {
+    width: 300px;
+    height: 30px;
+    border-radius: 30px;
+    border: 1px solid black;
+    padding: 0 10px;
+    text-align: center;
+    background-color: rgb(85, 83, 83);
+    color: white;
+    font-size: 15px;
+}
+.btn-search{
+    width: 60px;
+    height: 32px;
+    font-size: 40px;
+    border-radius: 30px;
+    border: 1px solid black;
+    background-color: rgb(143, 49, 231);
+    font-size: 12px;
+    color: white;
+}
+hr{
+    background-color: rgb(55, 52, 52);
+    border: none;
+    height: 2px;
+}
+.weather {
+    display: grid;
+    grid-template-columns: 1fr 2.8fr;
+    gap: 20px;
+}
+.now, .detail, .forecast, .condition, .wind{
+    background-color: rgb(15, 16, 15);
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+.data-temp {
+  float: left;
+}
+
+.icon img {
+  float: right;
+}
+
+.forecast {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    gap: 5px;
+}
+
+.day {
+    align-items: center;
+    display: contents;
+}
+.day .temp{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.temp { 
+    grid-column: 1; 
+    display: block;
+    overflow: hidden;
+}
+.date1 { 
+    grid-column: 2; 
+    margin-left: 20px;
+}
+.weekday { 
+    grid-column: 3; 
+}
+.highlights{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+.index{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sunrise, .sunset{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.time{
+    display: flex;
+    justify-content: space-between;
+}
+.time-group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.time1{
+    text-align: center;
+}
+.wind, .condition{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.humpre, .visfe{
+    display: flex;
+    justify-content: space-between;
+}
+.highlights h5, sub{
+    color: rgb(124, 124, 124);
+}
+.quality-number{
+    text-align: center;
+}
+.sub{
+    font-size: 13px;
+}
+.subject{
+    font-size: 2rem;
+    display: block;
+}
+.air-quality, .dawn-dusk, .humidity, .pressure, .visibility, .feel{
+    background-color: rgb(21, 20, 20);
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+.humidity, .pressure, .visibility, .feel{
+    width: 40%;
+}
+.wind{
+    margin-top: 10px;
+}
+.img{
+    background-color: white;
+}

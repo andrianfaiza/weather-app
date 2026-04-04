@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/suncalc/suncalc.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span><i class="bi bi-cloud-fill"></i></span> Weather App</h1>
+            <div class="search-input">
+                <input type="text" placeholder="🔍︎ Search City" id="search">
+                <button onclick="weather()" type="submit" class="btn-search">🔍︎</button>
+            </div>
+        </div>
+        <div class="weather" id="weather">
+            <div class="data">
+                <div class="now" id="now">
+                    <p>Now</p>
+                    <div id="temp" class="temp" style="text-align: right;">
+                        <div class="data-temp">
+                            <h1>--°C</h1>
+                            <p style="text-align: left;">--</p>
+                        </div>
+                        <div class="icon">
+                            <i class="bi bi-cloud-slash-fill" style="font-size: 60px;"></i>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="date">
+                        <p><i class="bi bi-calendar"></i> --</p>
+                    </div>
+                    <div class="location" id="location">
+                        <p><i class="bi bi-geo-alt-fill"></i> --</p>
+                    </div>
+                </div>
+                <h4>5 Days Forecast</h4>
+                <div class="forecast">
+                    <div class="day">
+                        <span class="temp"><i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-right: 8px;"></i> --°C</span>
+                        <span class="date1">--</span>
+                        <span class="weekday">--</span>
+                    </div>
+                    <div class="day">
+                        <span class="temp"><i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-right: 8px;"></i> --°C</span>
+                        <span class="date1">--</span>
+                        <span class="weekday">--</span>
+                    </div>
+                    <div class="day">
+                        <span class="temp"><i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-right: 8px;"></i> --°C</span>
+                        <span class="date1">--</span>
+                        <span class="weekday">--</span>
+                    </div>
+                    <div class="day">
+                        <span class="temp"><i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-right: 8px;"></i> --°C</span>
+                        <span class="date1">--</span>
+                        <span class="weekday">--</span>
+                    </div>
+                    <div class="day">
+                        <span class="temp"><i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-right: 8px;"></i> --°C</span>
+                        <span class="date1">--</span>
+                        <span class="weekday">--</span>
+                    </div>
+                </div>
+            </div>
+            <div class="data1">
+                <div class="detail">
+                    <p>Todays Highlights</p>
+                    <div class="highlights">
+                        <div class="air-quality">
+                            <h5>Air Quality Index</h5>
+                            <div class="index" id="index">
+                                <i class="bi bi-wind" style="font-size: 40px;"></i>
+                                <div class="quality-number">
+                                    <span class="sub">PM2.5</span>
+                                    <span class="subject">--</span>
+                                </div>
+                                <div class="quality-number">
+                                    <span class="sub">SO2</span>
+                                    <span class="subject">--</span>
+                                </div>
+                                <div class="quality-number">
+                                    <span class="sub">NO2</span>
+                                    <span class="subject">--</span>
+                                </div>
+                                <div class="quality-number">
+                                    <span class="sub">O3</span>
+                                    <span class="subject">--</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dawn-dusk">
+                            <h5>Sunrise & Sunset</h5>
+                            <div class="time" id="time">
+                                <div class="sunrise">
+                                    <i class="bi bi-sunrise" style="font-size:40px;""></i>
+                                    <div>
+                                        <span class="sub">Sunrise</span>
+                                        <span class="subject">--:--</span>
+                                    </div>
+                                </div>
+                                <div class="sunset">
+                                    <i class="bi bi-sunset" style="font-size: 40px;"></i>
+                                    <div>
+                                        <span class="sub">Sunset</span>
+                                        <span class="subject">--:--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="humpre">
+                            <div class="humidity">
+                                <h5>Humidity</h5>
+                                <span class="subject" id="humidity"> <i class="bi bi-moisture"></i> -- %</span>
+                            </div>
+                            <div class="pressure">
+                                <h5>Pressure</h5>
+                                <span class="subject" id="pressure"><i class="bi bi-speedometer"></i> ---- hPa</span>
+                            </div>
+                        </div>
+                        <div class="visfe">
+                            <div class="visibility">
+                                <h5>Visibility</h5>
+                                <span class="subject" id="visibility"><i class="bi bi-binoculars"></i> -- Km</span>
+                            </div>
+                            <div class="feel">
+                                <h5>Feels Like</h5>
+                                <span class="subject" id="feel"><i class="bi bi-thermometer-half"></i> -- °C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="schedule">
+                    <h5>Today at</h5>
+                    <div class="time-group">
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                        <div class="time1">
+                            <div class="condition">
+                                <p>--:--</p>
+                                <i class="bi bi-cloud-slash-fill" style="font-size: 30px; margin-bottom: 10px;"></i>
+                                <span>-- °C</span>
+                            </div>
+                            <div class="wind">
+                                <p>--</p>
+                                <i class="bi bi-send-exclamation-fill"  style="margin-bottom: 10px; font-size: 20px;"></i>
+                                <span>-- km/h</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
