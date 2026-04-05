@@ -144,7 +144,6 @@ function weather(){
                     <span>${item.main.temp} °C</span>
                 </div>
                 <div class="wind">
-                    <p>${windDirection}</p>
                     <i class="i bi-cursor-fill"  style="transform: rotate(${windDeg}deg); margin-bottom: 10px; font-size: 20px;"></i>
                     <span>${windSpeed} km/h</span>
                 </div>
