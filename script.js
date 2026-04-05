@@ -95,20 +95,32 @@ function weather(){
     .then(res => res.json())
     .then(data => {
         let forecastHTML = "";
-        for (let i = 0; i < data.list.length; i += 8) {
+        let today = new Date().getDate();
+        let usedDates = new Set();
+
+        for (let i = 0; i < data.list.length; i++) {
             const item = data.list[i];
             const date = new Date(item.dt_txt);
+            const dayKey = date.toDateString();
 
-            forecastHTML += `
-                <div class="day">
-                    <div class="temp">
-                    <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="icon"> 
-                    <span style="text-align: left;">${item.main.temp}°C</span></div>
-                    <span class="date1">${date.getDate()} ${date.toLocaleDateString('en-EN', { month: 'long' })}</span>
-                    <span class="weekday">${date.toLocaleDateString('en-EN', { weekday : 'long'})}</span>
-                </div>
-            `;
+            if (date.getDate() > today && !usedDates.has(dayKey)) {
+                usedDates.add(dayKey);
+
+                forecastHTML += `
+                    <div class="day">
+                        <div class="temp">
+                            <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="icon">  
+                            <span>${item.main.temp}°C</span>
+                        </div>
+                        <span class="date1">${date.getDate()} ${date.toLocaleDateString('en-EN', { month: 'long' })}</span>
+                        <span class="weekday">${date.toLocaleDateString('en-EN', { weekday : 'long'})}</span>
+                    </div>
+                `;
+            }
+
+            if (usedDates.size === 5) break;
         }
+
         document.querySelector(".forecast").innerHTML = forecastHTML;
 
     let hourlyHTML = "";
