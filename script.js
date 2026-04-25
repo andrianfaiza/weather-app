@@ -1,23 +1,25 @@
-const apiKey = '7dfca5cd72c557441775d613bbb83126';
+const apiKey = "7dfca5cd72c557441775d613bbb83126";
 
 function formatLocalTime(utcSeconds, timezoneOffsetSeconds) {
-    const localTimestamp = (utcSeconds + timezoneOffsetSeconds) * 1000;
-    const localDate = new Date(localTimestamp);
-    const hours = localDate.getUTCHours().toString().padStart(2, '0');
-    const minutes = localDate.getUTCMinutes().toString().padStart(2, '0');
+  const localTimestamp = (utcSeconds + timezoneOffsetSeconds) * 1000;
+  const localDate = new Date(localTimestamp);
+  const hours = localDate.getUTCHours().toString().padStart(2, "0");
+  const minutes = localDate.getUTCMinutes().toString().padStart(2, "0");
 
-    const ampm = hours >= 12 ? 'PM' : 'AM'
-    const hour = (hours % 12) || 12
-    return `${hour}:${minutes} ${ampm}`;
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const hour = hours % 12 || 12;
+  return `${hour}:${minutes} ${ampm}`;
 }
 
-function weather(){
-    const city = document.getElementById('search').value;
+function weather() {
+  const city = document.getElementById("search").value;
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("temp").innerHTML = `
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`,
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("temp").innerHTML = `
         <div id="temp" class="temp">
             <div class="data-temp">
                 <h1>${data.main.temp}°C</h1>
@@ -29,26 +31,33 @@ function weather(){
         </div>
         `;
 
-        today();
+      today();
 
-        document.querySelector('.location').innerHTML = `<p><i class="bi bi-geo-alt-fill"></i> ${data.name}, ${data.sys.country}</p>`;
-        document.getElementById("humidity").innerHTML = `<span class="subject" id="humidity"><i class="bi bi-moisture"></i> ${data.main.humidity} %</span>`;
-        document.getElementById("pressure").innerHTML = `<span class="subject" id="pressure"><i class="bi bi-speedometer"></i> ${data.main.pressure} hPa</span>`;
+      document.querySelector(".location").innerHTML =
+        `<p><i class="bi bi-geo-alt-fill"></i> ${data.name}, ${data.sys.country}</p>`;
+      document.getElementById("humidity").innerHTML =
+        `<span class="subject" id="humidity"><i class="bi bi-moisture"></i> ${data.main.humidity} %</span>`;
+      document.getElementById("pressure").innerHTML =
+        `<span class="subject" id="pressure"><i class="bi bi-speedometer"></i> ${data.main.pressure} hPa</span>`;
 
-        const distance = data.visibility / 1000
-        document.getElementById("visibility").innerHTML = `<span class="subject" id="visibility"><i class="bi bi-binoculars"></i> ${distance} Km</span>`;
-        document.getElementById("feel").innerHTML = `<span class="subject" id="feel"><i class="bi bi-thermometer-half"></i> ${data.main.feels_like} °C</span>`;
+      const distance = data.visibility / 1000;
+      document.getElementById("visibility").innerHTML =
+        `<span class="subject" id="visibility"><i class="bi bi-binoculars"></i> ${distance} Km</span>`;
+      document.getElementById("feel").innerHTML =
+        `<span class="subject" id="feel"><i class="bi bi-thermometer-half"></i> ${data.main.feels_like} °C</span>`;
 
-        const latitude = data.coord.lat;
-        const longitude = data.coord.lon;
+      const latitude = data.coord.lat;
+      const longitude = data.coord.lon;
 
-        fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${apiKey}`)
-        .then(res => res.json())
-        .then(aqiData => {
-            const aqi = aqiData.list[0].main.aqi;
-            const components = aqiData.list[0].components;
+      fetch(
+        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${apiKey}`,
+      )
+        .then((res) => res.json())
+        .then((aqiData) => {
+          const aqi = aqiData.list[0].main.aqi;
+          const components = aqiData.list[0].components;
 
-            document.querySelector(".index").innerHTML = `
+          document.querySelector(".index").innerHTML = `
                     <i class="bi bi-wind" style="font-size: 40px;"></i>
                     <div class="quality-number">
                         <span class="sub">PM2.5</span>
@@ -67,12 +76,18 @@ function weather(){
                         <span class="subject">${components.o3}</span>
                     </div>
             `;
-        
-            const timezoneOffsetSec = data.timezone;
-            const sunriseTime = formatLocalTime(data.sys.sunrise, timezoneOffsetSec);
-            const sunsetTime = formatLocalTime(data.sys.sunset, timezoneOffsetSec);
 
-            document.getElementById("time").innerHTML = `
+          const timezoneOffsetSec = data.timezone;
+          const sunriseTime = formatLocalTime(
+            data.sys.sunrise,
+            timezoneOffsetSec,
+          );
+          const sunsetTime = formatLocalTime(
+            data.sys.sunset,
+            timezoneOffsetSec,
+          );
+
+          document.getElementById("time").innerHTML = `
             <div class="sunrise">
             <i class="bi bi-sunrise" style="font-size:40px;""></i>
             <div>
@@ -87,59 +102,61 @@ function weather(){
             <span class="subject">${sunsetTime}</span>
             </div>
             </div>
-            `
-            });
-    })
+            `;
+        });
+    });
 
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`)
-    .then(res => res.json())
-    .then(data => {
-        let forecastHTML = "";
-        let today = new Date().getDate();
-        let usedDates = new Set();
+  fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`,
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      let forecastHTML = "";
+      let today = new Date().getDate();
+      let usedDates = new Set();
 
-        for (let i = 0; i < data.list.length; i++) {
-            const item = data.list[i];
-            const date = new Date(item.dt_txt);
-            const dayKey = date.toDateString();
+      for (let i = 0; i < data.list.length; i++) {
+        const item = data.list[i];
+        const date = new Date(item.dt_txt);
+        const dayKey = date.toDateString();
 
-            if (date.getDate() > today && !usedDates.has(dayKey)) {
-                usedDates.add(dayKey);
+        if (date.getDate() > today && !usedDates.has(dayKey)) {
+          usedDates.add(dayKey);
 
-                forecastHTML += `
+          forecastHTML += `
                     <div class="day">
                         <div class="temp">
                             <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="icon">  
                             <span>${item.main.temp}°C</span>
                         </div>
-                        <span class="date1">${date.getDate()} ${date.toLocaleDateString('en-EN', { month: 'long' })}</span>
-                        <span class="weekday">${date.toLocaleDateString('en-EN', { weekday : 'long'})}</span>
+                        <span class="date1">${date.getDate()} ${date.toLocaleDateString("en-EN", { month: "long" })}</span>
+                        <span class="weekday">${date.toLocaleDateString("en-EN", { weekday: "long" })}</span>
                     </div>
                 `;
-            }
-
-            if (usedDates.size === 5) break;
         }
 
-        document.querySelector(".forecast").innerHTML = forecastHTML;
+        if (usedDates.size === 5) break;
+      }
 
-    let hourlyHTML = "";
-    let count = 0;
+      document.querySelector(".forecast").innerHTML = forecastHTML;
 
-    data.list.forEach(item => {
+      let hourlyHTML = "";
+      let count = 0;
+
+      data.list.forEach((item) => {
         if (count >= 8) return;
         const date1 = new Date(item.dt * 1000);
         const windDeg = item.wind.deg || 0;
-        const windSpeed = Math.round(item.wind.speed * 3.6)
+        const windSpeed = Math.round(item.wind.speed * 3.6);
 
-        const directions = ['N','NE','E','SE','S','SW','W','NW'];
+        const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
         const index = Math.round(windDeg / 45) % 8;
         const windDirection = directions[index];
 
         hourlyHTML += `
             <div class="time1">
                 <div class="condition">
-                    <p>${date1.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true})}</p>
+                    <p>${date1.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })}</p>
                     <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}.png" style>
                     <span>${item.main.temp} °C</span>
                 </div>
@@ -150,13 +167,13 @@ function weather(){
             </div>
         `;
         count++;
-    });
-    
-    document.querySelector(".time-group").innerHTML = hourlyHTML;
-        })
-        .catch(error => {
-            console.error('Error fetching forecast:', error);
-            document.getElementById('weather').innerHTML = `
+      });
+
+      document.querySelector(".time-group").innerHTML = hourlyHTML;
+    })
+    .catch((error) => {
+      console.error("Error fetching forecast:", error);
+      document.getElementById("weather").innerHTML = `
             <div class="data">
                 <div class="now" id="now">
                     <p>Now</p>
@@ -376,19 +393,41 @@ function weather(){
                 </div>
             </div>
             `;
-        });
+    });
 }
 
-function today(){
-    const today = new Date();
-    const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function today() {
+  const today = new Date();
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-    const dayName = days[today.getDay()];
-    const day = today.getDate();     
-    const month = months[today.getMonth()];
-    const year = today.getFullYear();
+  const dayName = days[today.getDay()];
+  const day = today.getDate();
+  const month = months[today.getMonth()];
+  const year = today.getFullYear();
 
-    const dateString = `${dayName}, ${day} ${month} ${year}`;
-    document.querySelector(".date").innerHTML = `<p><i class="bi bi-calendar"></i> ${dateString}</p>`;
+  const dateString = `${dayName}, ${day} ${month} ${year}`;
+  document.querySelector(".date").innerHTML =
+    `<p><i class="bi bi-calendar"></i> ${dateString}</p>`;
 }
