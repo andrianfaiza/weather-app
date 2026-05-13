@@ -1,4 +1,4 @@
-const apiKey = "API_KEY_IN_HERE"; //Replace to your api key
+const apiKey = "7dfca5cd72c557441775d613bbb83126";
 
 function formatLocalTime(utcSeconds, timezoneOffsetSeconds) {
   const localTimestamp = (utcSeconds + timezoneOffsetSeconds) * 1000;
